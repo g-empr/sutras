@@ -2,7 +2,7 @@
 <html lang="ja">
     <head>
         <meta charset="UTF-8">
-        <title>Sutras for JavaScript</title>
+        <title>Work by JavaScript - コード集</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/5.0.0/sanitize.min.css" />
         <style>
@@ -10,19 +10,25 @@
             font-family: "游ゴシック", "Yu Gothic", YuGothic, "Hiragino Kaku Gothic ProN", "Hiragino Kaku Gothic Pro", "メイリオ", Meiryo, "ＭＳ ゴシック", sans-serif;
             background: #FFF9EB;
         }
-        .wrapper {
+        .header {
             width: 100%;
             max-width: 900px;
             min-width: 800px;
-            background: #fff;
             margin: 0 auto;
         }
+        .header > p {
+            text-align: center;
+        }
         .pageTitle {
-            background: #fff;
-            padding: 1px 10px;
+            padding: 10px 10px 0;
         }
         .pageTitle h1{
             margin: 0;
+            text-align: center;
+            background: #333;
+            color: #fff;
+            border-radius: 50px;
+            min-width: 800px;
         }
         .box {
             width: 800px;
@@ -46,52 +52,147 @@
             color: #999;
         }
         .codeArea h2 {
-            text-align: center;
+            //text-align: center;
+            width: 850px;
+            margin: 0 auto;
+            margin-bottom: 0;
+            margin-top: 30px;
+            line-height: 2rem;
+        }
+        .codeArea > p {
+            text-decoration: underline;
+            width: 800px;
+            margin: 10px auto;
         }
         pre {
             min-width: 800px;
             background: #333;
             color: #fff;
+            margin: 0;
+            display: flex;
         }
         code {
             width: 700px;
             display: block;
             margin: 0 auto;
         }
+        code span {
+            color: greenyellow;
+        }
         .box.exe {
-            background: #ccc;
+            background: #fff;
+            border: 1px solid #000;
             margin: 0 auto;
+        }
+        .box.exe span {
+            color: blue
+            ;
+        }
+        .footer {
+            text-align: center;
+            padding: 5px 0;
+            margin-top: 40px;
+            border-top: 1px solid #999;
+            background: #fff;
+        }
+        .footer small {
         }
         </style>
     </head>
     <body>
-        <div class="wrapper">
+        <div class="header">
             <div class="pageTitle">
-                <h1>Sutras for JavaScript</h1>
+                <h1>Work by JavaScript - コード集</h1>
             </div>
-            <ul class="box itemList">
-                <li href="#" class="item"><a href="">aaaaa</a></li>
-                <li href="#" class="item"><a href="">aaaaa</a></li>
-                <li href="#" class="item"><a href="">aaaaa</a></li>
-                <li href="#" class="item"><a href="">aaaaa</a></li>
-            </ul>
+            <p><a href="http://www.cl.ecei.tohoku.ac.jp/nlp100/" target="_blank">これ</a>の演習的なもの。</p>
         </div>
+
         <div class="codeArea">
-            <h2>なんたらかんたら</h2>
+            <h2>001. hoge</h2>
+            <p>コード</p>
             <pre>
                 <code>
-pre {
-    background: #333;
-    color: #fff;
-}
-code {
-
-}
+hogehoge
                 </code>
             </pre>
+            <p>実行（例）</p>
             <div class="box exe">
-                aaaaaaaaaa
+                >
             </div>
+        </div>
+
+        <div class="codeArea">
+            <h2>002. hoge</h2>
+            <p>コード</p>
+            <pre>
+                <code>
+hogehoge
+                </code>
+            </pre>
+            <p>実行（例）</p>
+            <div class="box exe">
+                >
+            </div>
+        </div>
+
+        <div class="codeArea">
+            <h2>003. hoge</h2>
+            <p>コード</p>
+            <pre>
+                <code>
+hogehoge
+                </code>
+            </pre>
+            <p>実行（例）</p>
+            <div class="box exe">
+                >
+            </div>
+        </div>
+
+        <div class="codeArea">
+            <h2>004. hoge</h2>
+            <p>コード</p>
+            <pre>
+                <code>
+hogehoge
+                </code>
+            </pre>
+            <p>実行（例）</p>
+            <div class="box exe">
+                >
+            </div>
+        </div>
+
+        <div class="codeArea">
+            <h2>005. hoge</h2>
+            <p>コード</p>
+            <pre>
+                <code>
+hogehoge
+                </code>
+            </pre>
+            <p>実行（例）</p>
+            <div class="box exe">
+                >
+            </div>
+        </div>
+
+        <div class="codeArea">
+            <h2>006. hoge</h2>
+            <p>コード</p>
+            <pre>
+                <code>
+hogehoge
+                </code>
+            </pre>
+            <p>実行（例）</p>
+            <div class="box exe">
+                >
+            </div>
+        </div>
+
+        <div class="footer">
+            <small>&copy; hoge</small>
         </div>
     </body>
 </html>
