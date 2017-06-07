@@ -8,7 +8,7 @@
         <style>
         body {
             font-family: "游ゴシック", "Yu Gothic", YuGothic, "Hiragino Kaku Gothic ProN", "Hiragino Kaku Gothic Pro", "メイリオ", Meiryo, "ＭＳ ゴシック", sans-serif;
-            background: #FFF9EB;
+            background: #EFF5FB;
         }
         .header {
             width: 100%;
@@ -29,6 +29,30 @@
             color: #fff;
             border-radius: 50px;
             min-width: 800px;
+        }
+        .brdText {
+            text-align: center;
+            position: relative;
+            font-weight: bold;
+            margin: 60px 0;
+        }
+        .brdText:before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 50%;
+            width: 20vw;
+            height: 1px;
+            background: #000;
+        }
+        .brdText:after {
+            content: "";
+            position: absolute;
+            right: 0;
+            top: 50%;
+            width: 20vw;
+            height: 1px;
+            background: #000;
         }
         .box {
             width: 800px;
@@ -70,9 +94,14 @@
             color: #fff;
             margin: 0;
             display: flex;
+            white-space: -moz-pre-wrap; /* Mozilla */
+            white-space: -pre-wrap;     /* Opera 4-6 */
+            white-space: -o-pre-wrap;   /* Opera 7 */
+            white-space: pre-wrap;      /* CSS3 */
+            word-wrap: break-word;      /* IE 5.5+ */
         }
         code {
-            width: 700px;
+            width: 800px;
             display: block;
             margin: 0 auto;
         }
@@ -104,90 +133,360 @@
             <div class="pageTitle">
                 <h1>Work by JavaScript - コード集</h1>
             </div>
-            <p><a href="http://www.cl.ecei.tohoku.ac.jp/nlp100/" target="_blank">これ</a>の演習的なもの。</p>
+            <p><a href="http://www.cl.ecei.tohoku.ac.jp/nlp100/" target="_blank">これ</a>の演習的なもの。DevToolで出力確認。</p>
         </div>
 
         <div class="codeArea">
-            <h2>001. hoge</h2>
+            <h2>000. 文字列の逆順</h2>
             <p>コード</p>
             <pre>
                 <code>
-hogehoge
+var answer = 'stressed'.split("").reverse().join("");
+console.log(answer);
                 </code>
             </pre>
             <p>実行（例）</p>
             <div class="box exe">
-                >
+                &gt;desserts
             </div>
         </div>
 
         <div class="codeArea">
-            <h2>002. hoge</h2>
+            <h2>001. 「パタトクカシーー」</h2>
             <p>コード</p>
             <pre>
                 <code>
-hogehoge
+var answer = "";
+for(var i in o = [0, 2, 4, 6]){
+  answer += 'パタトクカシーー'.charAt(o[i]);
+}
+console.log(answer);
                 </code>
             </pre>
             <p>実行（例）</p>
             <div class="box exe">
-                >
+                &gt;パトカー
             </div>
         </div>
 
         <div class="codeArea">
-            <h2>003. hoge</h2>
+            <h2>002. 「パトカー」＋「タクシー」＝「パタトクカシーー」</h2>
             <p>コード</p>
             <pre>
                 <code>
-hogehoge
+var answer = "";
+for (var i = 0; i < "パトカー".length; i++) {
+  answer += "パトカー".charAt(i) + "タクシー".charAt(i);
+}
+console.log(answer);
                 </code>
             </pre>
             <p>実行（例）</p>
             <div class="box exe">
-                >
+                &gt;パタトクカシーー
             </div>
         </div>
 
         <div class="codeArea">
-            <h2>004. hoge</h2>
+            <h2>003. 円周率</h2>
             <p>コード</p>
             <pre>
                 <code>
-hogehoge
+var list = "Now I need a drink, alcoholic of course, after the heavy lectures involving quantum mechanics.".replace(/,|\./g,'').split(" ");
+var answer = [];
+for(var i = 0; i&lt;list.length; i++ ){
+  answer[i] = list[i].length;
+}
+console.log(answer);
                 </code>
             </pre>
             <p>実行（例）</p>
             <div class="box exe">
-                >
+                &gt;[3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5, 8, 9, 7, 9]
             </div>
         </div>
 
         <div class="codeArea">
-            <h2>005. hoge</h2>
+            <h2>004. 元素記号</h2>
             <p>コード</p>
             <pre>
                 <code>
-hogehoge
+var list = "Hi He Lied Because Boron Could Not Oxidize Fluorine. New Nations Might Also Sign Peace Security Clause. Arthur King Can.".replace(/,|\./g,'').split(" ");
+var answer = {};
+for(var i = 0; i&lt;list.length; i++ ){
+  answer[String(i+1)] = list[i].slice(0,2);
+}
+for(var i in o = [1, 5, 6, 7, 8, 9, 15, 16, 19]){
+  answer[o[i]] = answer[o[i]].charAt(0);
+}
+console.log(answer);
                 </code>
             </pre>
             <p>実行（例）</p>
             <div class="box exe">
-                >
+                &gt;{1: "H", 2: "He", 3: "Li", 4: "Be", 5: "B", 6: "C", 7: "N", 8: "O", 9: "F", 10: "Ne", 11: "Na", 12: "Mi", 13: "Al", 14: "Si", 15: "P", 16: "S", 17: "Cl", 18: "Ar", 19: "K", 20: "Ca"}
             </div>
         </div>
 
         <div class="codeArea">
-            <h2>006. hoge</h2>
+            <h2>005. n-gram</h2>
             <p>コード</p>
             <pre>
                 <code>
-hogehoge
+var Ngram = function(list,n,separator){
+  this.list = list;
+  this.n = n;
+  this.word = [];
+  this.character = [];
+  this.separator = separator;
+  this.init = function(){
+    if(typeof this.list == "string"){
+      this.list = this.list.replace(/,|\./g,'').split(" ");
+    }
+    this.setWord();
+    this.setCharacter();
+  }
+  this.setWord = function(){
+    this.word = [];
+    this.njoin(this.list,this.word);
+  }
+  this.setCharacter = function(){
+    this.character = [];
+    var strings = this.list.join("").split("");
+    this.njoin(strings,this.character);
+  }
+  this.njoin = function(in_list,out_list){
+    for(var i = 0; i<= in_list.length - this.n; i++){
+      var t = [];
+      for (var j=0; j&lt;this.n; j++){
+        t.push(in_list[i+j]);
+      }
+      out_list.push(t.join(this.separator));
+    }
+  }
+  this.init();
+}
+
+var answer = new Ngram("I am an NLPer",2,"-");
+console.log(answer.word);
+console.log(answer.character);
                 </code>
             </pre>
             <p>実行（例）</p>
             <div class="box exe">
-                >
+                &gt;["I-am", "am-an", "an-NLPer"]<br>
+                &gt;["I-a", "a-m", "m-a", "a-n", "n-N", "N-L", "L-P", "P-e", "e-r"]
+            </div>
+        </div>
+
+        <div class="codeArea">
+            <h2>006. 集合</h2>
+            <p>コード</p>
+            <pre>
+                <code>
+わからん…
+                </code>
+            </pre>
+            <p>実行（例）</p>
+            <div class="box exe">
+                &gt;
+            </div>
+        </div>
+
+        <div class="codeArea">
+            <h2>007. テンプレートによる文生成</h2>
+            <p>コード</p>
+            <pre>
+                <code>
+var tmplSentence = function (x, y, z) {
+  return x+"時の"+y+"は"+z;
+}
+console.log(tmplSentence(12,"気温",22.4));
+                </code>
+            </pre>
+            <p>実行（例）</p>
+            <div class="box exe">
+                &gt;12時の気温は22.4
+            </div>
+        </div>
+
+        <div class="codeArea">
+            <h2>008. 暗号文</h2>
+            <p>コード</p>
+            <pre>
+                <code>
+var Cipher = function(diffcode,pattern){
+  this.diffcode = diffcode;
+  this.pattern = pattern;
+  this.process = function(str){
+    var strings = str.split("");
+    var encodeStrings = "";
+    for (var i = 0; i < strings.length; i++) {
+      if(strings[i].match(this.pattern)){
+        encodeStrings += String.fromCharCode(this.diffcode - strings[i].charCodeAt(0));
+      }else{
+        encodeStrings += strings[i];
+      }
+    }
+    return encodeStrings;
+  }
+}
+
+var cipher = new Cipher(219,/^[a-z]+$/);
+console.log(answer = cipher.process("Hi He Lied Because Boron Could Not Oxidize Fluorine. New Nations Might Also Sign Peace Security Clause. Arthur King Can."));
+console.log(cipher.process(answer));
+                </code>
+            </pre>
+            <p>実行（例）</p>
+            <div class="box exe">
+                &gt;Hr Hv Lrvw Bvxzfhv Blilm Clfow Nlg Ocrwrav Foflirmv. Nvd Nzgrlmh Mrtsg Aohl Srtm Pvzxv Svxfirgb Cozfhv. Aigsfi Krmt Czm.<br>
+                &gt;Hi He Lied Because Boron Could Not Oxidize Fluorine. New Nations Might Also Sign Peace Security Clause. Arthur King Can.
+            </div>
+        </div>
+
+        <div class="codeArea">
+            <h2>009. Typoglycemia</h2>
+            <p>コード</p>
+            <pre>
+                <code>
+わからん…
+                </code>
+            </pre>
+            <p>実行（例）</p>
+            <div class="box exe">
+                &gt;
+            </div>
+        </div>
+
+        <p class="brdText">第2章はコマンドライン操作なのでスキップ。</p>
+
+        <div class="codeArea">
+            <h2>020. JSONデータの読み込み</h2>
+            <p>コード</p>
+            <pre>
+                <code>
+                </code>
+            </pre>
+            <p>実行（例）</p>
+            <div class="box exe">
+                &gt;
+            </div>
+        </div>
+
+        <div class="codeArea">
+            <h2>021. カテゴリ名を含む行を抽出</h2>
+            <p>コード</p>
+            <pre>
+                <code>
+                </code>
+            </pre>
+            <p>実行（例）</p>
+            <div class="box exe">
+                &gt;
+            </div>
+        </div>
+
+        <div class="codeArea">
+            <h2>022. カテゴリ名の抽出</h2>
+            <p>コード</p>
+            <pre>
+                <code>
+                </code>
+            </pre>
+            <p>実行（例）</p>
+            <div class="box exe">
+                &gt;
+            </div>
+        </div>
+
+        <div class="codeArea">
+            <h2>023. セクション構造</h2>
+            <p>コード</p>
+            <pre>
+                <code>
+                </code>
+            </pre>
+            <p>実行（例）</p>
+            <div class="box exe">
+                &gt;
+            </div>
+        </div>
+
+        <div class="codeArea">
+            <h2>024. ファイル参照の抽出</h2>
+            <p>コード</p>
+            <pre>
+                <code>
+                </code>
+            </pre>
+            <p>実行（例）</p>
+            <div class="box exe">
+                &gt;
+            </div>
+        </div>
+
+        <div class="codeArea">
+            <h2>025. テンプレートの抽出</h2>
+            <p>コード</p>
+            <pre>
+                <code>
+                </code>
+            </pre>
+            <p>実行（例）</p>
+            <div class="box exe">
+                &gt;
+            </div>
+        </div>
+
+        <div class="codeArea">
+            <h2>026. 強調マークアップの除去</h2>
+            <p>コード</p>
+            <pre>
+                <code>
+                </code>
+            </pre>
+            <p>実行（例）</p>
+            <div class="box exe">
+                &gt;
+            </div>
+        </div>
+
+        <div class="codeArea">
+            <h2>027. 内部リンクの除去</h2>
+            <p>コード</p>
+            <pre>
+                <code>
+                </code>
+            </pre>
+            <p>実行（例）</p>
+            <div class="box exe">
+                &gt;
+            </div>
+        </div>
+
+        <div class="codeArea">
+            <h2>028. MediaWikiマークアップの除去</h2>
+            <p>コード</p>
+            <pre>
+                <code>
+                </code>
+            </pre>
+            <p>実行（例）</p>
+            <div class="box exe">
+                &gt;
+            </div>
+        </div>
+
+        <div class="codeArea">
+            <h2>029. 国旗画像のURLを取得する</h2>
+            <p>コード</p>
+            <pre>
+                <code>
+                </code>
+            </pre>
+            <p>実行（例）</p>
+            <div class="box exe">
+                &gt;
             </div>
         </div>
 
