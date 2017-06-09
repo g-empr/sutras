@@ -89,7 +89,10 @@
             margin: 10px auto 0;
         }
         .codeArea > p.caps {
-            text-decoration: none !important;
+            text-decoration: none;
+        }
+        .codeArea > p.caps {
+            margin-bottom: 10px;
         }
         pre {
             min-width: 800px;
@@ -144,6 +147,11 @@
             <p>コード</p>
             <pre>
                 <code>
+<span>/*
+split: 文字の分割
+reverse: 配列の順序逆転
+join: 配列の要素連結
+*/</span>
 var answer = 'stressed'.split("").reverse().join("");
 console.log(answer);
                 </code>
@@ -160,6 +168,7 @@ console.log(answer);
             <pre>
                 <code>
 var answer = "";
+<span>// 配列のindexを指定して抜き出す</span>
 for(var i in o = [0, 2, 4, 6]){
   answer += 'パタトクカシーー'.charAt(o[i]);
 }
@@ -178,6 +187,7 @@ console.log(answer);
             <pre>
                 <code>
 var answer = "";
+<span>// i番目の処理ごとに各文字列のi番目の文字を追加する</span>
 for (var i = 0; i < "パトカー".length; i++) {
   answer += "パトカー".charAt(i) + "タクシー".charAt(i);
 }
@@ -195,6 +205,7 @@ console.log(answer);
             <p>コード</p>
             <pre>
                 <code>
+<span>// 文章を単語に切り分け、それらの文字数をカウントし配列に追加</span>
 var list = "Now I need a drink, alcoholic of course, after the heavy lectures involving quantum mechanics.".replace(/,|\./g,'').split(" ");
 var answer = [];
 for(var i = 0; i&lt;list.length; i++ ){
@@ -214,6 +225,7 @@ console.log(answer);
             <p>コード</p>
             <pre>
                 <code>
+<span>// 文章を単語に切り分け、指定番数ごとの処理を行い、配列に追加</span>
 var list = "Hi He Lied Because Boron Could Not Oxidize Fluorine. New Nations Might Also Sign Peace Security Clause. Arthur King Can.".replace(/,|\./g,'').split(" ");
 var answer = {};
 for(var i = 0; i&lt;list.length; i++ ){
@@ -236,12 +248,20 @@ console.log(answer);
             <p>コード</p>
             <pre>
                 <code>
+<span>/*
+第1引数：対象文字列
+第2引数：文字の連続数
+第3引数：文字のセパレータ
+を指定する関数 Ngram を作る
+*/</span>
 var Ngram = function(list,n,separator){
   this.list = list;
   this.n = n;
   this.word = [];
   this.character = [];
   this.separator = separator;
+
+　<span>// 初期化</span>
   this.init = function(){
     if(typeof this.list == "string"){
       this.list = this.list.replace(/,|\./g,'').split(" ");
@@ -249,15 +269,21 @@ var Ngram = function(list,n,separator){
     this.setWord();
     this.setCharacter();
   }
+
+  <span>// 単語配列にセット</span>
   this.setWord = function(){
     this.word = [];
     this.njoin(this.list,this.word);
   }
+
+  <span>// 文字配列にセット</span>
   this.setCharacter = function(){
     this.character = [];
     var strings = this.list.join("").split("");
     this.njoin(strings,this.character);
   }
+
+  <span>// 単語と文字の分割処理</span>
   this.njoin = function(in_list,out_list){
     for(var i = 0; i<= in_list.length - this.n; i++){
       var t = [];
@@ -284,15 +310,71 @@ console.log(answer.character);
 
         <div class="codeArea">
             <h2>006. 集合</h2>
+            <p class="caps">引き続き Ngram 関数を利用する。下部にコードを追加していく。</p>
             <p>コード</p>
             <pre>
                 <code>
-わからん…
+<span>// 名前空間に各メソッドを定義</span>
+var ArrayHelper = {
+  
+  <span>// 和集合</span>
+  union:function(A,B){
+    var T = A.concat(B);
+    T = T.filter(function (x, i, self) {
+      return self.indexOf(x) === i;
+    });
+    return T;
+  },
+
+  <span>// 積集合</span>
+  intersection:function(A,B){
+    var T = A.concat(B);
+    T = T.filter(function (x, i, self) {
+      return self.indexOf(x) === i && i !== self.lastIndexOf(x);
+    });
+    return T;
+  },
+
+  <span>// 差集合</span>
+  difference:function(A,B){
+    var I = this.intersection(A,B);
+    var T = A.concat(B);
+    T = T.filter(function (x, i, self) {
+      return (I.indexOf(x) == -1);
+    });
+    return T;
+  },
+
+  <span>// ランダムシャッフル（問9にて利用）</span>
+  shuffle:function(array) {
+    var m = array.length;
+    var t, i;
+    while (m) {
+      i = Math.floor(Math.random() * m--);
+      t = array[m];
+      array[m] = array[i];
+      array[i] = t;
+    }
+    return array;
+  }
+}
+
+var X = new Ngram("paraparaparadise",2,"-");
+var Y = new Ngram("paragraph",2,"-");
+console.log(ArrayHelper.union(X.character,Y.character));
+console.log(ArrayHelper.intersection(X.character,Y.character));
+console.log(ArrayHelper.difference(X.character,Y.character));
+console.log(Boolean(X.character.indexOf("s-e")+1));
+console.log(Boolean(Y.character.indexOf("s-e")+1));
                 </code>
             </pre>
             <p>実行（例）</p>
             <div class="box exe">
-                &gt;
+                &gt;["p-a", "a-r", "r-a", "a-p", "a-d", "d-i", "i-s", "s-e", "a-g", "g-r", "p-h"]<br>
+                &gt;["p-a", "a-r", "r-a", "a-p"]<br>
+                &gt;["a-d", "d-i", "i-s", "s-e", "a-g", "g-r", "p-h"]<br>
+                &gt;true<br>
+                &gt;false<br>
             </div>
         </div>
 
@@ -301,6 +383,7 @@ console.log(answer.character);
             <p>コード</p>
             <pre>
                 <code>
+<span>// 連結・出力</span>
 var tmplSentence = function (x, y, z) {
   return x+"時の"+y+"は"+z;
 }
@@ -318,12 +401,16 @@ console.log(tmplSentence(12,"気温",22.4));
             <p>コード</p>
             <pre>
                 <code>
+<span>// 英小文字を特定し文字コードをずらす暗号化関数 Cipher を定義</span>
 var Cipher = function(diffcode,pattern){
   this.diffcode = diffcode;
   this.pattern = pattern;
+
+  <span>// 暗号化処理</span>
   this.process = function(str){
     var strings = str.split("");
     var encodeStrings = "";
+    <span>// 大小文字を判定し文字コードを変換</span>
     for (var i = 0; i < strings.length; i++) {
       if(strings[i].match(this.pattern)){
         encodeStrings += String.fromCharCode(this.diffcode - strings[i].charCodeAt(0));
@@ -352,12 +439,32 @@ console.log(cipher.process(answer));
             <p>コード</p>
             <pre>
                 <code>
-わからん…
+<span>// 文章中の文字列の端以外をシャッフル</span>
+var middleStringShuffle = function(word) {
+  var middles  = word.slice(1,-1).split("");
+  var re = '$1' + ArrayHelper.shuffle(middles).join("") + '$2';
+  var find = /^(.).+(.)$/;
+  return strings[i].replace(find,re);
+}
+
+var strings = "I couldn't believe that I could actually understand what I was reading : the phenomenal power of the human mind .".split(" ");
+var answer = [];
+
+<span>// 文字数による例外</span>
+for (var i = 0; i < strings.length; i++) {
+  if(strings[i].length>4){
+    answer.push(middleStringShuffle(strings[i]));
+  }else{
+    answer.push(strings[i]);
+  }
+}
+answer = answer.join(" ");
+console.log(answer);
                 </code>
             </pre>
             <p>実行（例）</p>
             <div class="box exe">
-                &gt;
+                &gt;I cdluo'nt bieevle that I cluod atcaully uandrtensd what I was ridenag : the peheomnanl poewr of the haumn mind .
             </div>
         </div>
 
@@ -366,136 +473,43 @@ console.log(cipher.process(answer));
         <div class="codeArea">
             <h2>020. JSONデータの読み込み</h2>
             <p class="caps">対象となるjsonは<a href="jawiki-country.json" target="_blank">これ</a>。</p>
-            <p class="caps">下記 main.js 内に各項目ごとにまとめて記述。</p>
+            <p class="caps"><a href="main.js" target="_blank">main.js</a> 内に各項目ごとにまとめて記述。 Ajaxで直接読み込むためjQueryライブラリを使用する。</p>
+            <p>コード</p>
             <div class="codeArea">
                 <pre>
                     <code>
-var MyWikipediaAPI = function(url){
-  this.datas = [];
-  this.url = url;
-  /**
-  * ajaxでdata取得
-  * @method getData
-  * @return jsonデータ
-  */
-  this.getData = $.ajax({
-      url:this.url,
-      type:'GET',
-      cache:true,
-      context:this,
-      dataType:'text'
-    });
-  /**
-  * データの整形
-  * @method shaping
-  * @param {string} t 行分割したテキスト
-  */
-  this.shaping = function(t){
-    //カテゴリ(問21,22)
-    t.categoles = t.text.match(/\[\[カテゴリ:[^\]]*?\]\]/g);
-    if(t.categoles){
-      for (var j = 0; j < t.categoles.length; j++) {
-        t.categoles[j] = t.categoles[j].replace(/\[\[カテゴリ:([^\]]*?)\]\]/,'$1');
-      }
-    }
-    //セクション(問23)
-    t.sections = t.text.match(/={2,} [^=]*? ={2,}/g);
-    if(t.sections){
-      for (var j = 0; j < t.sections.length; j++) {
-        _level = t.sections[j].replace(/(={2,}).+/,'$1').length - 1
-        t.sections[j] = {
-          level:_level,
-          name:t.sections[j].replace(/^={2,} (.*?) ={2,}$/,'$1')
-        }
-      }
-    }
-    //ファイル(問24)
-    t.files = t.text.match(/\[\[ファイル:[^\]]*?\]\]/g);
-    if(t.files){
-      for (var j = 0; j < t.files.length; j++) {
-         _datas = t.files[j].replace(/\[\[ファイル:([^\]]*?)\]\]/,'$1').split("|");
-         t.files[j] = {
-           name:_datas[0],
-           size:_datas[1],
-           alt:_datas[2]
-         }
-      }
-    }
-    //基礎情報(問25~29)
-    if(t.text.match(/{{基礎情報[\s\S]*?}}\n/g)){
-      //基礎情報スタート位置
-      var _lines = t.text.replace(/[\s\S]*{{基礎情報 国([\s\S]*)/g,'$1').replace(/\|\n/g,'\n|').split("\n|");
-      var _setLines = []
-      for (var j = 0; j < _lines.length; j++) {
-        var targetLine = _lines[j];
-        //問25
-        targetLine = targetLine.trim().replace('|','');
-        //基礎情報が終わるポイント
-        if(targetLine.indexOf("}}\n") == 0){
-          j = _lines.length + 1;
-        }else if(targetLine.indexOf("}}\n") > 0){
-          targetLine = targetLine.split("}}\n")[0];
-          j = _lines.length + 1;
-        }
-        if(j<_lines.length && targetLine != ""){
-          //問26
-          targetLine = targetLine.replace(/'{2,}/g,'');
-          //問27
-          var _reg = /\[\[(.*?)\]\]/g;
-          var _rep = "__reg__link__ptn__";
-          var _links = targetLine.match(_reg);
-          if(_links){
-            targetLine = targetLine.replace(_reg,_rep);
-            for (var k = 0; k < _links.length; k++) {
-              var _cnp = _links[k].replace(_reg,'$1').split("|");
-              targetLine = targetLine.replace(_rep,_cnp[_cnp.length - 1]);
-            }
-          }
-          //問28
-          targetLine = targetLine
-            .replace(/<("[^"]*"|'[^']*'|[^'">])*>/g,'')
-            .replace(/{{[^\|]*?\|/g,'')
-            .replace(/}}/g,'')
-            .replace(/\[[^\[]*?\]/g,'');
-
-          //キー配列に変換
-          var _name = targetLine.replace(/([^=]*?)=[\s\S]*/,'$1').trim();
-          var _val = targetLine.replace(/.*?=([\s\S]*)/,'$1').trim().replace(/\n/,'');
-          _setLines[_name] = _val;
-        }
-      }
-      t.baseData = _setLines;
-    }
-    this.datas[t.title] = t;
-  }
-  /**
-  * 国旗画像のデータを取得
-  * @method getFlagImg
-  * @param {string} name 国名
-  * @return jsonデータ
-  */
-  this.getFlagImg = function(name){
-    if(this.datas[name].baseData["国旗画像"]){
-      return $.ajax({
-          url: 'https://en.wikipedia.org/w/api.php?action=query&titles=File:' + encodeURIComponent(this.datas[name].baseData["国旗画像"]) + '&prop=imageinfo&iiprop=url&format=json',
-          type:'get',
-          context:this,
-          dataType:'jsonp'
-      });
-    }
-  }
-}
+　　　　　<span>︙</span>
+<span>// Ajax で対象データを引っ張ってくる</span>
+this.getData = $.ajax({
+    url:this.url,
+    type:'GET',
+    cache:true,
+    context:this,
+    dataType:'text'
+  });
+　        <span>︙</span>
                     </code>
                 </pre>
             </div>
-            <p>コード</p>
-            <pre>
-                <code>
-                </code>
-            </pre>
-            <p>実行（例）</p>
-            <div class="box exe">
-                &gt;
+            <br>
+            <div class="codeArea">
+                <pre>
+                    <code>
+　        <span>︙</span>
+var myWikipedia = new MyWikipediaAPI('jawiki-country.json');
+myWikipedia.getData.done(function(_data) {
+  var list = _data.split("\n");
+  for (var i = 0; i < list.length; i++) {
+    if(list[i] != ""){
+    　<span>// text → json に変換</span>
+      var t = JSON.parse(list[i]);
+      this.shaping(t);
+    }
+  }
+}
+　        <span>︙</span>
+                    </code>
+                </pre>
             </div>
         </div>
 
