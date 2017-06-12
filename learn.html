@@ -479,12 +479,16 @@ console.log(answer);
                 <pre>
                     <code>
 　　　　　<span>︙</span>
-<span>// Ajax で対象データを引っ張ってくる</span>
+<span>// Ajaxで対象データを引っ張ってくる</span>
 this.getData = $.ajax({
     url:this.url,
     type:'GET',
     cache:true,
     context:this,
+    <span>/*
+    json で指定するとデータ形式が崩れるので
+    一旦プレーンテキストとして持ってくる
+    */</span>
     dataType:'text'
   });
 　        <span>︙</span>
@@ -511,32 +515,24 @@ myWikipedia.getData.done(function(_data) {
                     </code>
                 </pre>
             </div>
+            <p class="caps">これでjsonデータの読み込みが完了。<br>以下データを操作・整形する。</p>
         </div>
 
         <div class="codeArea">
-            <h2>021. カテゴリ名を含む行を抽出</h2>
+            <h2>021-022. カテゴリ名を含む行を抽出、カテゴリ名の抽出</h2>
             <p>コード</p>
             <pre>
                 <code>
+<span>// カテゴリ行の抽出</span>
+t.categoles = t.text.match(/\[\[カテゴリ:[^\]]*?\]\]/g);
+if(t.categoles){
+  for (var j = 0; j < t.categoles.length; j++) {
+    <span>// カテゴリ名のみ抽出</span>
+    t.categoles[j] = t.categoles[j].replace(/\[\[カテゴリ:([^\]]*?)\]\]/,'$1');
+  }
+}
                 </code>
             </pre>
-            <p>実行（例）</p>
-            <div class="box exe">
-                &gt;
-            </div>
-        </div>
-
-        <div class="codeArea">
-            <h2>022. カテゴリ名の抽出</h2>
-            <p>コード</p>
-            <pre>
-                <code>
-                </code>
-            </pre>
-            <p>実行（例）</p>
-            <div class="box exe">
-                &gt;
-            </div>
         </div>
 
         <div class="codeArea">
@@ -544,12 +540,20 @@ myWikipedia.getData.done(function(_data) {
             <p>コード</p>
             <pre>
                 <code>
+<span>// sectionの特定</span>
+t.sections = t.text.match(/={2,} [^=]*? ={2,}/g);
+if(t.sections){
+  for (var j = 0; j < t.sections.length; j++) {
+    _level = t.sections[j].replace(/(={2,}).+/,'$1').length - 1
+    t.sections[j] = {
+      <span>// level, nameへの格納</span>
+      level:_level,
+      name:t.sections[j].replace(/^={2,} (.*?) ={2,}$/,'$1')
+    }
+  }
+}
                 </code>
             </pre>
-            <p>実行（例）</p>
-            <div class="box exe">
-                &gt;
-            </div>
         </div>
 
         <div class="codeArea">
@@ -557,12 +561,21 @@ myWikipedia.getData.done(function(_data) {
             <p>コード</p>
             <pre>
                 <code>
+<span>// ファイル部分の特定</span>
+t.files = t.text.match(/\[\[ファイル:[^\]]*?\]\]/g);
+if(t.files){
+  for (var j = 0; j < t.files.length; j++) {
+     _datas = t.files[j].replace(/\[\[ファイル:([^\]]*?)\]\]/,'$1').split("|");
+     t.files[j] = {
+       <span>// name, size, altへの格納</span>
+       name:_datas[0],
+       size:_datas[1],
+       alt:_datas[2]
+     }
+  }
+}
                 </code>
             </pre>
-            <p>実行（例）</p>
-            <div class="box exe">
-                &gt;
-            </div>
         </div>
 
         <div class="codeArea">
@@ -570,12 +583,29 @@ myWikipedia.getData.done(function(_data) {
             <p>コード</p>
             <pre>
                 <code>
+<span>// 基礎情報スタート部分のパターン</span>
+var _lines = t.text.replace(/[\s\S]*{{基礎情報 国([\s\S]*)/g,'$1').replace(/\|\n/g,'\n|').split("\n|");
+var _setLines = []
+for (var j = 0; j < _lines.length; j++) {
+  var targetLine = _lines[j];
+  <span>// テンプレート部分</span>
+  targetLine = targetLine.trim().replace('|','');
+  <span>// 基礎情報エンド部分</span>
+  if(targetLine.indexOf("}}\n") == 0){
+    j = _lines.length + 1;
+  }else if(targetLine.indexOf("}}\n") > 0){
+    targetLine = targetLine.split("}}\n")[0];
+    j = _lines.length + 1;
+  }
+  if(j<_lines.length && targetLine != ""){
+    <span>// キー配列に変換</span>
+    var _name = targetLine.replace(/([^=]*?)=[\s\S]*/,'$1').trim();
+    var _val = targetLine.replace(/.*?=([\s\S]*)/,'$1').trim().replace(/\n/,'');
+    _setLines[_name] = _val;
+  }
+}
                 </code>
             </pre>
-            <p>実行（例）</p>
-            <div class="box exe">
-                &gt;
-            </div>
         </div>
 
         <div class="codeArea">
@@ -583,12 +613,10 @@ myWikipedia.getData.done(function(_data) {
             <p>コード</p>
             <pre>
                 <code>
+<span>// match部分の削除</span>
+targetLine = targetLine.replace(/'{2,}/g,'');
                 </code>
             </pre>
-            <p>実行（例）</p>
-            <div class="box exe">
-                &gt;
-            </div>
         </div>
 
         <div class="codeArea">
@@ -596,12 +624,19 @@ myWikipedia.getData.done(function(_data) {
             <p>コード</p>
             <pre>
                 <code>
+<span>// リンク部分の特定</span>
+var _reg = /\[\[(.*?)\]\]/g;
+var _rep = "__reg__link__ptn__";
+var _links = targetLine.match(_reg);
+if(_links){
+  targetLine = targetLine.replace(_reg,_rep);
+  for (var k = 0; k < _links.length; k++) {
+    var _cnp = _links[k].replace(_reg,'$1').split("|");
+    targetLine = targetLine.replace(_rep,_cnp[_cnp.length - 1]);
+  }
+}
                 </code>
             </pre>
-            <p>実行（例）</p>
-            <div class="box exe">
-                &gt;
-            </div>
         </div>
 
         <div class="codeArea">
@@ -609,12 +644,14 @@ myWikipedia.getData.done(function(_data) {
             <p>コード</p>
             <pre>
                 <code>
+<span>// 削除部分の追加</span>
+targetLine = targetLine
+  .replace(/<("[^"]*"|'[^']*'|[^'">])*>/g,'')
+  .replace(/{{[^\|]*?\|/g,'')
+  .replace(/}}/g,'')
+  .replace(/\[[^\[]*?\]/g,'');
                 </code>
             </pre>
-            <p>実行（例）</p>
-            <div class="box exe">
-                &gt;
-            </div>
         </div>
 
         <div class="codeArea">
@@ -622,12 +659,31 @@ myWikipedia.getData.done(function(_data) {
             <p>コード</p>
             <pre>
                 <code>
+<span>// 取得メソッドの追加</span>
+this.getFlagImg = function(name){
+  if(this.datas[name].baseData["国旗画像"]){
+    <span>// jsonデータとしてreturn</span>
+    return $.ajax({
+        url: 'https://en.wikipedia.org/w/api.php?action=query&titles=File:' + encodeURIComponent(this.datas[name].baseData["国旗画像"]) + '&prop=imageinfo&iiprop=url&format=json',
+        type:'get',
+        context:this,
+        dataType:'jsonp'
+    });
+  }
+}
                 </code>
             </pre>
-            <p>実行（例）</p>
-            <div class="box exe">
-                &gt;
-            </div>
+            <br>
+            <pre>
+                <code>
+<span>// イギリスの国旗を持ってくる場合</span>
+myWikipedia.getFlagImg("イギリス").done(function(_data) {
+  for (var id in _data.query.pages) {
+    console.log(_data.query.pages[id].imageinfo[0].url);
+  }
+});
+                </code>
+            </pre>
         </div>
 
         <div class="footer">
